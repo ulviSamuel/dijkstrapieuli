@@ -3,6 +3,7 @@ package it.volta.ts.ulivisamuel.dijkstrapieuli;
 import java.util.Scanner;
 
 import it.volta.ts.ulivisamuel.dijkstrapieuli.biz.BizDijkstra;
+import it.volta.ts.ulivisamuel.dijkstrapieuli.exceptions.NodesException;
 import it.volta.ts.ulivisamuel.dijkstrapieuli.util.Util;
 
 public class Console 
@@ -30,13 +31,27 @@ public class Console
 	
 	private void nodesRequest()
 	{
-		String mess = "\nInserisci i nodi appartenenti al sistema (es. 'A,B,C,D,E') altrimenti clicca invio per "
-				    + "annullare l'operazione";
-		String nodes = Util.leggiString(scanner, mess, false, null);
-		//if(nodes != null)	
+		String  mess  = "\nInserisci i nodi appartenenti al sistema (es. 'A,B,C,D,E', almeno 4 nodi) altrimenti clicca invio per "
+				      + "annullare l'operazione";
+		String  nodes = null;
+		boolean goOn  = false;
+		do
+		{
+			goOn  = false;
+			nodes = Util.leggiString(scanner, mess, false, null);
+			if(nodes != null)
+			{
+				try {
+					bizDijkstra.initAdjacencyMatrix(nodes);
+				} catch (NodesException e) {
+					System.out.println("\nSi è verificato un errore: " + e.getMessage());
+					goOn = true;
+				}
+			}
+		}
+		while(goOn);
 	}
 	
 	//---------------------------------------------------------------------------------------------
 	
-	//private void 
 }
