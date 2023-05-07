@@ -3,6 +3,7 @@ package it.volta.ts.ulivisamuel.dijkstrapieuli;
 import java.util.Scanner;
 
 import it.volta.ts.ulivisamuel.dijkstrapieuli.biz.BizDijkstra;
+import it.volta.ts.ulivisamuel.dijkstrapieuli.events.DijkstraConsoleListener;
 import it.volta.ts.ulivisamuel.dijkstrapieuli.exceptions.NodesException;
 import it.volta.ts.ulivisamuel.dijkstrapieuli.util.Util;
 
@@ -23,6 +24,7 @@ public class Console
 	public void execute()
 	{
 		scanner = new Scanner(System.in);
+		bizDijkstra.setDijkstraConsoleListener(new DijkstraConsoleListener());
 		nodesRequest();
 		scanner.close();
 	}
@@ -31,7 +33,7 @@ public class Console
 	
 	private void nodesRequest()
 	{
-		String  mess  = "\nInserisci i nodi appartenenti al sistema (es. 'A,B,C,D,E', almeno 4 nodi) altrimenti clicca invio per "
+		String  mess  = "\nInserisci i nodi appartenenti alla rete (es. 'A,B,C,D,E', almeno 4 nodi) altrimenti clicca invio per "
 				      + "annullare l'operazione";
 		String  nodes = null;
 		boolean goOn  = false;
@@ -53,5 +55,6 @@ public class Console
 	}
 	
 	//---------------------------------------------------------------------------------------------
+	
 	
 }
