@@ -34,7 +34,7 @@ public class Console
 	private void nodesRequest()
 	{
 		String  mess  = "\nInserisci i nodi appartenenti alla rete (es. 'A,B,C,D,E', almeno 4 nodi) altrimenti clicca invio per "
-				      + "annullare l'operazione";
+				      + "uscire dal programma";
 		String  nodes = null;
 		boolean goOn  = false;
 		do
@@ -45,6 +45,7 @@ public class Console
 			{
 				try {
 					bizDijkstra.initAdjacencyMatrix(nodes);
+					nodesConnectionAndWeightRequest();
 				} catch (NodesException e) {
 					System.out.println("\nSi è verificato un errore: " + e.getMessage());
 					goOn = true;
@@ -56,5 +57,36 @@ public class Console
 	
 	//---------------------------------------------------------------------------------------------
 	
-	
+	private void nodesConnectionAndWeightRequest()
+	{
+		String  mess            = "Inserisci i collegamenti diretti del nodo indicato con gli altri nodi del sistema (almeno 1).\nPer "
+				                + "ogni nodo collegato specifica poi il peso (>0) del percorso altrimenti premi invio per uscire dal programma"
+				                + "\n(es. il nodo a cui vanno aggiunti i collegamenti è il nodo A. I collegamenti diretti sono 'B2,C4,E9' "
+				                + "dove\nla lettera corrisponde a un nodo direttamente collegato e il numero associato corrisponde al peso "
+				                + "del percorso)";
+		String  nodesSplitted[] = bizDijkstra.getNodi();
+		String  connections     = null;
+		boolean goOn            = false;
+		for(int idx = 0; idx < nodesSplitted.length; ++idx)
+		{
+			do
+			{
+				goOn = false;
+				System.out.println("\nNodo: " + nodesSplitted[idx]);
+				connections = Util.leggiString(scanner, mess, false, null);
+				if(connections != null)
+				{
+					try {
+						bizDijkstra.fillAdjacencyMatrix(idx, connections);
+					} catch (NodesException e) {
+						System.out.println("\nSi è verificato un errore: " + e.getMessage());
+						goOn = true;
+					}
+				}
+				else
+					return;
+			}
+			while(goOn);
+		}
+	} 
 }
