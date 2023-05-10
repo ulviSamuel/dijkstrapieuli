@@ -1,6 +1,7 @@
 package it.volta.ts.ulivisamuel.dijkstrapieuli.biz;
 
 import it.volta.ts.ulivisamuel.dijkstrapieuli.bean.AdjacencyMatrix;
+import it.volta.ts.ulivisamuel.dijkstrapieuli.bean.PotentialMatrix;
 import it.volta.ts.ulivisamuel.dijkstrapieuli.events.DijkstraConsoleListener;
 import it.volta.ts.ulivisamuel.dijkstrapieuli.events.DijkstraEvent;
 import it.volta.ts.ulivisamuel.dijkstrapieuli.exceptions.NodesException;
@@ -9,6 +10,7 @@ public class BizDijkstra
 {
 	private DijkstraConsoleListener consoleListener;
 	private AdjacencyMatrix         adjacencyMatrix;
+	private PotentialMatrix         potentialMatrix;
 	
 	//---------------------------------------------------------------------------------------------
 	
@@ -16,6 +18,7 @@ public class BizDijkstra
 	{
 		consoleListener = null;
 		adjacencyMatrix = new AdjacencyMatrix();
+		potentialMatrix = new PotentialMatrix();
 	}
 	
 	//---------------------------------------------------------------------------------------------
@@ -80,6 +83,68 @@ public class BizDijkstra
 		}
 		else
 			throw new NodesException("numero di collegamenti inseriti non sufficiente.");
+	}
+	
+	//---------------------------------------------------------------------------------------------
+	
+	public void calculateMinimumRoute(String startingNode, String destinationNode) throws NodesException
+	{
+		potentialMatrix.setFields(adjacencyMatrix.getFields());
+		initTablePotentialMatrix();
+		int startingNodePos = searchNodePosition(startingNode);
+		if(startingNodePos != -1)
+		{
+			int destinationNodePos = searchNodePosition(destinationNode);
+			if(destinationNodePos != -1)
+				dijkstraAlgorithm(startingNodePos, destinationNodePos);
+			else
+				throw new NodesException("nodo di arrivo non trovato.");
+		}
+		else
+			throw new NodesException("nodo di partenza non trovato.");
+	}
+	
+	//---------------------------------------------------------------------------------------------
+	
+	private void initTablePotentialMatrix()
+	{
+		int nNodes = potentialMatrix.getFields().length;
+		String potentialMatrixTmp[][] = new String[nNodes][nNodes];
+		for(int idx = 0; idx < nNodes; ++idx)
+			for(int jdx = 0; jdx < nNodes; ++jdx)
+				potentialMatrixTmp[idx][jdx] = "inf";
+		potentialMatrix.setAdjacencyMatrix(potentialMatrixTmp);
+	}
+	
+	//---------------------------------------------------------------------------------------------
+	
+	private String dijkstraAlgorithm(int startingNodePos, int destinationNodePos)
+	{
+		if(startingNodePos == destinationNodePos)
+			return adjacencyMatrix.getFields()[startingNodePos];
+		else
+		{
+			
+		}
+		return null;
+	}
+	
+	//---------------------------------------------------------------------------------------------
+	
+	private int minWeightRow(int row)
+	{
+		int min       = Integer.MAX_VALUE;
+		int minColPos = -1;
+		for(int idx = 0; idx < adjacencyMatrix.getFields().length; ++idx)
+		{
+			int columnValue = adjacencyMatrix.getValue(row, idx);
+			if(columnValue != 0 && columnValue < min)
+			{
+				min       = columnValue;
+				minColPos = idx;
+			}
+		}
+		return minColPos;
 	}
 	
 	//---------------------------------------------------------------------------------------------
