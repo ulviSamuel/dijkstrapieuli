@@ -25,8 +25,32 @@ public class Console
 	{
 		scanner = new Scanner(System.in);
 		bizDijkstra.setDijkstraConsoleListener(new DijkstraConsoleListener());
-		nodesRequest();
+		test();
+		//nodesRequest();
 		scanner.close();
+	}
+	
+	//---------------------------------------------------------------------------------------------
+	
+	private void test()
+	{
+		try {
+			bizDijkstra.initAdjacencyMatrix("A,B,C,D,E,F,G");
+		} catch (NodesException e) {
+			System.out.println("\nSi è verificato un errore: " + e.getMessage());
+		}
+		try {
+			bizDijkstra.fillAdjacencyMatrix(0, "B2,C8");
+			bizDijkstra.fillAdjacencyMatrix(1, "A2,D2,E6");
+			bizDijkstra.fillAdjacencyMatrix(2, "A8,D2,F3");
+			bizDijkstra.fillAdjacencyMatrix(3, "C2,B2,F9");
+			bizDijkstra.fillAdjacencyMatrix(4, "B6,G5");
+			bizDijkstra.fillAdjacencyMatrix(5, "C3,D9,G1");
+			bizDijkstra.fillAdjacencyMatrix(6, "F1,E5");
+			
+		} catch (NodesException e) {
+			System.out.println("\nSi è verificato un errore: " + e.getMessage());
+		}
 	}
 	
 	//---------------------------------------------------------------------------------------------
