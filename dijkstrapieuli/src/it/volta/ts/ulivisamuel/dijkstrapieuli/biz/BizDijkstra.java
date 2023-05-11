@@ -127,6 +127,7 @@ public class BizDijkstra
 		else
 		{
 			int minNodePotPos = searchAndFixMinNodePotentialPos();
+			addAdjacentPotensials(minNodePotPos);
 		}
 		return null;
 	}
@@ -137,9 +138,8 @@ public class BizDijkstra
 	{
 		int minPos         = -1;
 		int minPot         = Integer.MAX_VALUE;
-		int vectorLength   = potentialVector.getFields().length;
 		String potVector[] = potentialVector.getPotentialVector();
-		for(int idx = 0; idx < vectorLength; ++idx)
+		for(int idx = 0; idx < potentialVector.getFields().length; ++idx)
 		{
 			try {
 				int value = Integer.parseInt(potVector[idx]);
@@ -152,6 +152,21 @@ public class BizDijkstra
 		}
 		potentialVector.setValue(minPos, potentialVector.getValue(minPos) + "fix");
 		return minPos;
+	}
+	
+	//---------------------------------------------------------------------------------------------
+	
+	private void addAdjacentPotensials(int minNodePotPos)
+	{
+		for(int idx = 0; idx < potentialVector.getFields().length; ++idx)
+		{
+			if(adjacencyMatrix.getValue(idx, minNodePotPos) != 0)
+			{
+				int minNodePot = Integer.parseInt(potentialVector.getValue(minNodePotPos).split("fix")[0]);
+				int potential  = minNodePot + adjacencyMatrix.getValue(idx, minNodePotPos);
+				potentialVector.setValue(idx, potential + "");
+			}
+		}
 	}
 	
 	//---------------------------------------------------------------------------------------------
