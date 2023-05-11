@@ -141,7 +141,7 @@ public class BizDijkstra
 		int    jdx  = destinationNodePos;
 		for(int idx = 0; idx < adjacencyMatrix.getFields().length; ++idx)
 		{
-			if(idx != jdx)
+			if(idx != jdx && !potentialVector.getValue(idx).equals("inf"))
 			{
 				int minNodePot = Integer.parseInt(potentialVector.getValue(idx).split("fix")[0]);
 				int potential  = minNodePot + adjacencyMatrix.getValue(idx, jdx);
