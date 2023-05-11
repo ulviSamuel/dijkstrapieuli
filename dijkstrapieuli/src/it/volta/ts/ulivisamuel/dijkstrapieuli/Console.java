@@ -51,11 +51,11 @@ public class Console
 		} catch (NodesException e) {
 			System.out.println("\nSi è verificato un errore: " + e.getMessage());
 		}
-		/*try {
+		try {
 			bizDijkstra.calculateMinimumRoute("A", "G");
 		} catch (NodesException e) {
 			e.printStackTrace();
-		}*/
+		}
 	}
 	
 	//---------------------------------------------------------------------------------------------

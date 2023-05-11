@@ -10,12 +10,12 @@ public class PotentialMatrix
 	public PotentialMatrix()
 	{
 		potentialMatrix = null;
-		setFields(null);
+		fields			= null;
 	}
 	
 	//---------------------------------------------------------------------------------------------
 	
-	public String[][] getAdjacencyMatrix() 
+	public String[][] getPotentialMatrix() 
 	{
 		return potentialMatrix;
 	}
@@ -32,7 +32,7 @@ public class PotentialMatrix
 	
 	
 
-	public void setAdjacencyMatrix(String[][] potentialMatrix) 
+	public void setPotentialMatrix(String[][] potentialMatrix) 
 	{
 		this.potentialMatrix = potentialMatrix;
 	}

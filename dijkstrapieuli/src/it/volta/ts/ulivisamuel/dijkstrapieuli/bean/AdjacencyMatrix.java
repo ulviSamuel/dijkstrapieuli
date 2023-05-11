@@ -10,7 +10,7 @@ public class AdjacencyMatrix
 	public AdjacencyMatrix()
 	{
 		adjacencyMatrix = null;
-		setFields(null);
+		fields          = null;
 	}
 	
 	//---------------------------------------------------------------------------------------------
