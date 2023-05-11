@@ -1,7 +1,7 @@
 package it.volta.ts.ulivisamuel.dijkstrapieuli.biz;
 
 import it.volta.ts.ulivisamuel.dijkstrapieuli.bean.AdjacencyMatrix;
-import it.volta.ts.ulivisamuel.dijkstrapieuli.bean.PotentialMatrix;
+import it.volta.ts.ulivisamuel.dijkstrapieuli.bean.PotentialVector;
 import it.volta.ts.ulivisamuel.dijkstrapieuli.events.DijkstraConsoleListener;
 import it.volta.ts.ulivisamuel.dijkstrapieuli.events.DijkstraEvent;
 import it.volta.ts.ulivisamuel.dijkstrapieuli.exceptions.NodesException;
@@ -10,7 +10,7 @@ public class BizDijkstra
 {
 	private DijkstraConsoleListener consoleListener;
 	private AdjacencyMatrix         adjacencyMatrix;
-	private PotentialMatrix         potentialMatrix;
+	private PotentialVector         potentialVector;
 	
 	//---------------------------------------------------------------------------------------------
 	
@@ -18,7 +18,7 @@ public class BizDijkstra
 	{
 		consoleListener = null;
 		adjacencyMatrix = new AdjacencyMatrix();
-		potentialMatrix = new PotentialMatrix();
+		potentialVector = new PotentialVector();
 	}
 	
 	//---------------------------------------------------------------------------------------------
@@ -89,15 +89,15 @@ public class BizDijkstra
 	
 	public void calculateMinimumRoute(String startingNode, String destinationNode) throws NodesException
 	{
-		potentialMatrix.setFields(adjacencyMatrix.getFields());
-		initTablePotentialMatrix();
+		potentialVector.setFields(adjacencyMatrix.getFields());
+		initPotentialVector();
 		int startingNodePos = searchNodePosition(startingNode);
 		if(startingNodePos != -1)
 		{
 			int destinationNodePos = searchNodePosition(destinationNode);
 			if(destinationNodePos != -1)
 			{
-				potentialMatrix.setValue(startingNodePos, startingNodePos, "0");
+				potentialVector.setValue(startingNodePos, "0");
 				dijkstraAlgorithm(startingNodePos, destinationNodePos);
 			}
 			else
@@ -109,14 +109,13 @@ public class BizDijkstra
 	
 	//---------------------------------------------------------------------------------------------
 	
-	private void initTablePotentialMatrix()
+	private void initPotentialVector()
 	{
-		int nNodes = potentialMatrix.getFields().length;
-		String potentialMatrixTmp[][] = new String[nNodes][nNodes];
+		int nNodes = potentialVector.getFields().length;
+		String potentialVectorTmp[] = new String[nNodes];
 		for(int idx = 0; idx < nNodes; ++idx)
-			for(int jdx = 0; jdx < nNodes; ++jdx)
-				potentialMatrixTmp[idx][jdx] = "inf";
-		potentialMatrix.setPotentialMatrix(potentialMatrixTmp);
+			potentialVectorTmp[idx] = "inf";
+		potentialVector.setPotentialVector(potentialVectorTmp);
 	}
 	
 	//---------------------------------------------------------------------------------------------
@@ -127,55 +126,32 @@ public class BizDijkstra
 			return adjacencyMatrix.getFields()[startingNodePos];
 		else
 		{
-			
+			int minNodePotPos = searchAndFixMinNodePotentialPos();
 		}
 		return null;
 	}
 	
 	//---------------------------------------------------------------------------------------------
 	
-	private int searchMinNodePotentialPos()
+	private int searchAndFixMinNodePotentialPos()
 	{
-		int minPos       = -1;
-		int minPot       = Integer.MAX_VALUE;
-		int matrixLength = potentialMatrix.getFields().length;
-		int columnStrPos = 0;
-		String potMatrix[][] = potentialMatrix.getPotentialMatrix();
-		for(int idx = 0; idx < matrixLength; ++idx)
+		int minPos         = -1;
+		int minPot         = Integer.MAX_VALUE;
+		int vectorLength   = potentialVector.getFields().length;
+		String potVector[] = potentialVector.getPotentialVector();
+		for(int idx = 0; idx < vectorLength; ++idx)
 		{
-			for(int jdx = columnStrPos; jdx < matrixLength; ++jdx)
-			{
-				try {
-					int value = Integer.parseInt(potMatrix[idx][jdx]);
-					if(value < minPot)
-					{
-						minPot = value;
-						
-					}
-				} catch (NumberFormatException e) {
-					
+			try {
+				int value = Integer.parseInt(potVector[idx]);
+				if(value < minPot)
+				{
+					minPot = value;
+					minPos = idx;
 				}
-			}
-			++columnStrPos;
+			} catch (NumberFormatException e) {}
 		}
-	}
-	
-	//---------------------------------------------------------------------------------------------
-	
-	private int minWeightRow(int row)
-	{
-		int min       = Integer.MAX_VALUE;
-		int minColPos = -1;
-		for(int idx = 0; idx < adjacencyMatrix.getFields().length; ++idx)
-		{
-			int columnValue = adjacencyMatrix.getValue(row, idx);
-			if(columnValue != 0 && columnValue < min)
-			{
-				min       = columnValue;
-				minColPos = idx;
-			}
-		}
-		return minColPos;
+		potentialVector.setValue(minPos, potentialVector.getValue(minPos) + "fix");
+		return minPos;
 	}
 	
 	//---------------------------------------------------------------------------------------------

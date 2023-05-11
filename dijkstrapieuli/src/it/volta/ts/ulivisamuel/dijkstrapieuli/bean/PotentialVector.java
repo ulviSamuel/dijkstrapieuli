@@ -1,28 +1,28 @@
 package it.volta.ts.ulivisamuel.dijkstrapieuli.bean;
 
-public class PotentialMatrix
+public class PotentialVector
 {
-	private String potentialMatrix[][];
+	private String potentialVector[];
 	private String fields[];
 	
 	//---------------------------------------------------------------------------------------------
 	
-	public PotentialMatrix()
+	public PotentialVector()
 	{
-		potentialMatrix = null;
+		potentialVector = null;
 		fields			= null;
 	}
 	
 	//---------------------------------------------------------------------------------------------
 	
-	public String[][] getPotentialMatrix() 
+	public String[] getPotentialVector() 
 	{
-		return potentialMatrix;
+		return potentialVector;
 	}
 	
-	public String getValue(int row, int column)
+	public String getValue(int column)
 	{
-		return potentialMatrix[row][column];
+		return potentialVector[column];
 	}
 	
 	public String[] getFields() 
@@ -32,14 +32,14 @@ public class PotentialMatrix
 	
 	
 
-	public void setPotentialMatrix(String[][] potentialMatrix) 
+	public void setPotentialVector(String[] potentialVector) 
 	{
-		this.potentialMatrix = potentialMatrix;
+		this.potentialVector = potentialVector;
 	}
 	
-	public void setValue(int row, int column, String value)
+	public void setValue(int column, String value)
 	{
-		potentialMatrix[row][column] = value;
+		potentialVector[column] = value;
 	}
 
 	public void setFields(String fields[])
