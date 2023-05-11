@@ -99,6 +99,7 @@ public class BizDijkstra
 			{
 				potentialVector.setValue(startingNodePos, "0fix");
 				dijkstraAlgorithm(startingNodePos, destinationNodePos);
+				consoleListener.showMessage(new DijkstraEvent("\nPercorso minimo: " + getMinPath(startingNodePos, destinationNodePos)));
 			}
 			else
 				throw new NodesException("nodo di arrivo non trovato.");
@@ -120,16 +121,44 @@ public class BizDijkstra
 	
 	//---------------------------------------------------------------------------------------------
 	
-	private String dijkstraAlgorithm(int startingNodePos, int destinationNodePos)
+	private void dijkstraAlgorithm(int startingNodePos, int destinationNodePos)
 	{
 		if(startingNodePos == destinationNodePos)
-			return adjacencyMatrix.getFields()[startingNodePos];
+			return;
 		else
 		{
 			addAdjacentPotensials(startingNodePos);
 			int minNodePotPos = searchAndFixMinNodePotentialPos();
-			return adjacencyMatrix.getFields()[startingNodePos] + " -> " + dijkstraAlgorithm(minNodePotPos, destinationNodePos);
+			dijkstraAlgorithm(minNodePotPos, destinationNodePos);
 		}
+	}
+	
+	//---------------------------------------------------------------------------------------------
+	
+	private String getMinPath(int startingNodePos, int destinationNodePos)
+	{
+		String path = "";
+		int    jdx  = destinationNodePos;
+		for(int idx = 0; idx < adjacencyMatrix.getFields().length; ++idx)
+		{
+			if(idx != jdx)
+			{
+				int minNodePot = Integer.parseInt(potentialVector.getValue(idx).split("fix")[0]);
+				int potential  = minNodePot + adjacencyMatrix.getValue(idx, jdx);
+				if(Integer.toString(potential).equals(potentialVector.getValue(jdx).split("fix")[0]))
+				{
+					path = " -> " + potentialVector.getFields()[jdx] + path;
+					jdx = idx;
+					idx = -1;
+					if(jdx == startingNodePos)
+					{
+						path = potentialVector.getFields()[jdx] + path;
+						break;
+					}
+				}
+			}
+		}
+		return path;
 	}
 	
 	//---------------------------------------------------------------------------------------------
@@ -162,13 +191,18 @@ public class BizDijkstra
 		{
 			if(adjacencyMatrix.getValue(idx, minNodePotPos) != 0)
 			{
-				int minNodePot = Integer.parseInt(potentialVector.getValue(minNodePotPos).split("fix")[0]);
-				int potential  = minNodePot + adjacencyMatrix.getValue(idx, minNodePotPos);
-				try {
-					int exPot = Integer.parseInt(potentialVector.getValue(idx));
-					if(potential < exPot)
+				if(!potentialVector.getValue(idx).contains("fix"))
+				{
+					int minNodePot = Integer.parseInt(potentialVector.getValue(minNodePotPos).split("fix")[0]);
+					int potential  = minNodePot + adjacencyMatrix.getValue(idx, minNodePotPos);
+					try {
+						int exPot = Integer.parseInt(potentialVector.getValue(idx));
+						if(potential < exPot)
+							potentialVector.setValue(idx, potential + "");
+					} catch (NumberFormatException e) {
 						potentialVector.setValue(idx, potential + "");
-				} catch (NumberFormatException e) {}
+					}
+				}
 			}
 		}
 	}

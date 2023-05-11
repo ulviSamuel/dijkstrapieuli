@@ -52,7 +52,7 @@ public class Console
 			System.out.println("\nSi è verificato un errore: " + e.getMessage());
 		}
 		try {
-			bizDijkstra.calculateMinimumRoute("A", "G");
+			bizDijkstra.calculateMinimumRoute("E", "E");
 		} catch (NodesException e) {
 			e.printStackTrace();
 		}
