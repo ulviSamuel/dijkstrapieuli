@@ -97,7 +97,7 @@ public class BizDijkstra
 			int destinationNodePos = searchNodePosition(destinationNode);
 			if(destinationNodePos != -1)
 			{
-				potentialVector.setValue(startingNodePos, "0");
+				potentialVector.setValue(startingNodePos, "0fix");
 				dijkstraAlgorithm(startingNodePos, destinationNodePos);
 			}
 			else
@@ -126,10 +126,10 @@ public class BizDijkstra
 			return adjacencyMatrix.getFields()[startingNodePos];
 		else
 		{
+			addAdjacentPotensials(startingNodePos);
 			int minNodePotPos = searchAndFixMinNodePotentialPos();
-			addAdjacentPotensials(minNodePotPos);
+			return adjacencyMatrix.getFields()[startingNodePos] + " -> " + dijkstraAlgorithm(minNodePotPos, destinationNodePos);
 		}
-		return null;
 	}
 	
 	//---------------------------------------------------------------------------------------------
@@ -164,7 +164,11 @@ public class BizDijkstra
 			{
 				int minNodePot = Integer.parseInt(potentialVector.getValue(minNodePotPos).split("fix")[0]);
 				int potential  = minNodePot + adjacencyMatrix.getValue(idx, minNodePotPos);
-				potentialVector.setValue(idx, potential + "");
+				try {
+					int exPot = Integer.parseInt(potentialVector.getValue(idx));
+					if(potential < exPot)
+						potentialVector.setValue(idx, potential + "");
+				} catch (NumberFormatException e) {}
 			}
 		}
 	}
