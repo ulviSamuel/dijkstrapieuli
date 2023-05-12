@@ -37,7 +37,7 @@ public class Console
 		try {
 			bizDijkstra.initAdjacencyMatrix("A,B,C,D,E,F,G");
 		} catch (NodesException e) {
-			System.out.println("\nSi è verificato un errore: " + e.getMessage());
+			System.out.println("\nSi Ã¨ verificato un errore: " + e.getMessage());
 		}
 		try {
 			bizDijkstra.fillAdjacencyMatrix(0, "B2,C8");
@@ -49,12 +49,12 @@ public class Console
 			bizDijkstra.fillAdjacencyMatrix(6, "F1,E5");
 			
 		} catch (NodesException e) {
-			System.out.println("\nSi è verificato un errore: " + e.getMessage());
+			System.out.println("\nSi Ã¨ verificato un errore: " + e.getMessage());
 		}
 		try {
-			bizDijkstra.calculateMinimumRoute("D", "G");
+			bizDijkstra.calculateMinimumRoute("F", "B");
 		} catch (NodesException e) {
-			e.printStackTrace();
+			System.out.println("\nSi Ã¨ verificato un errore: " + e.getMessage());
 		}
 	}
 	
@@ -76,7 +76,7 @@ public class Console
 					bizDijkstra.initAdjacencyMatrix(nodes);
 					nodesConnectionAndWeightRequest();
 				} catch (NodesException e) {
-					System.out.println("\nSi è verificato un errore: " + e.getMessage());
+					System.out.println("\nSi ï¿½ verificato un errore: " + e.getMessage());
 					goOn = true;
 				}
 			}
@@ -90,7 +90,7 @@ public class Console
 	{
 		String  mess            = "Inserisci i collegamenti diretti del nodo indicato con gli altri nodi del sistema (almeno 1).\nPer "
 				                + "ogni nodo collegato specifica poi il peso (>0) del percorso altrimenti premi invio per uscire dal programma"
-				                + "\n(es. il nodo a cui vanno aggiunti i collegamenti è il nodo A. I collegamenti diretti sono 'B2,C4,E9' "
+				                + "\n(es. il nodo a cui vanno aggiunti i collegamenti ï¿½ il nodo A. I collegamenti diretti sono 'B2,C4,E9' "
 				                + "dove\nla lettera corrisponde a un nodo direttamente collegato e il numero associato corrisponde al peso "
 				                + "del percorso)";
 		String  nodesSplitted[] = bizDijkstra.getNodi();
@@ -108,7 +108,7 @@ public class Console
 					try {
 						bizDijkstra.fillAdjacencyMatrix(idx, connections);
 					} catch (NodesException e) {
-						System.out.println("\nSi è verificato un errore: " + e.getMessage());
+						System.out.println("\nSi ï¿½ verificato un errore: " + e.getMessage());
 						goOn = true;
 					}
 				}
