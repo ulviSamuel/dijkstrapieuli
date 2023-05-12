@@ -1,5 +1,8 @@
 package it.volta.ts.ulivisamuel.dijkstrapieuli.biz;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import it.volta.ts.ulivisamuel.dijkstrapieuli.bean.AdjacencyMatrix;
 import it.volta.ts.ulivisamuel.dijkstrapieuli.bean.PotentialVector;
 import it.volta.ts.ulivisamuel.dijkstrapieuli.events.DijkstraConsoleListener;
@@ -42,18 +45,51 @@ public class BizDijkstra
 	public void initAdjacencyMatrix(String nodes) throws NodesException
 	{
 		String nodesSplitted[] = nodes.split(",");
-		if(nodesSplitted.length >= 4)
+		int    nNodes  = nodesSplitted.length;
+		String errMess = isNodesNamesAccepted(nodesSplitted, nNodes);
+		if(errMess.equals(""))
 		{
-			int nNodes = nodesSplitted.length;
 			adjacencyMatrix.setFields(nodesSplitted);
 			adjacencyMatrix.setAdjacencyMatrix(new int[nNodes][nNodes]);
 			consoleListener.showMessage(new DijkstraEvent("\nOperazione andata a buon fine, tabella delle adiacenze istanziata."));
 		}
 		else
-			throw new NodesException("numero di nodi inseriti non sufficiente.");
+			throw new NodesException(errMess);
 	}
 	
 	//TODO: ordinare campi in ordine crescende/dec
+	
+	//---------------------------------------------------------------------------------------------
+	
+	private String isNodesNamesAccepted(String nodesSplitted[], int nNodes)
+	{
+		List<String> differentNodes = new ArrayList<String>();
+		for(int idx = 0; idx < nNodes; ++idx)
+		{
+			if(nodesSplitted[idx].length() != 1)
+				return "nome dei nodi troppo lungo.";
+			try {
+				Integer.parseInt(nodesSplitted[idx]);
+				return "i nodi hanno un numero come nome.";
+			}
+			catch(NumberFormatException e){}
+			boolean equalNodes = false;
+			for(String node : differentNodes)
+			{
+				if(nodesSplitted[idx].equals(node))
+				{
+					equalNodes = true;
+					break;
+				}
+			}
+			if(equalNodes)
+				return "ci sono nodi non univoci.";
+			differentNodes.add(nodesSplitted[idx]);
+		}
+		if(differentNodes.size() <4)
+			return "numero di nodi inseriti non sufficiente.";
+		return "";
+	}
 	
 	//---------------------------------------------------------------------------------------------
 	
@@ -64,20 +100,25 @@ public class BizDijkstra
 		{
 			for(int idx = 0; idx < nodesSplitted.length; ++idx)
 			{
-				int weight = stringNodeWeightToInt(nodesSplitted[idx].substring(1));
-				if(weight >= 1)
+				if(nodesSplitted[idx].length() >= 2)
 				{
-					int positionConnection = searchNodePosition(nodesSplitted[idx].substring(0, 1));
-					if(positionConnection != -1)
+					int weight = stringNodeWeightToInt(nodesSplitted[idx].substring(1));
+					if(weight >= 1)
 					{
-						adjacencyMatrix.setValue(nodePos, positionConnection, weight);
-						adjacencyMatrix.setValue(positionConnection, nodePos, weight);
+						int positionConnection = searchNodePosition(nodesSplitted[idx].substring(0, 1));
+						if(positionConnection != -1)
+						{
+							adjacencyMatrix.setValue(nodePos, positionConnection, weight);
+							adjacencyMatrix.setValue(positionConnection, nodePos, weight);
+						}
+						else
+							throw new NodesException("nodi non trovati.");
 					}
 					else
-						throw new NodesException("nodi non trovati.");
+						throw new NodesException("peso dei persorsi inaccettabile.");
 				}
 				else
-					throw new NodesException("peso dei persorsi inaccettabile.");
+					throw new NodesException("mancano dei campi.");
 			}
 			consoleListener.showMessage(new DijkstraEvent("\nOperazione andata a buon fine, collegamenti aggiunti alla tabella."));
 		}
@@ -89,23 +130,28 @@ public class BizDijkstra
 	
 	public void calculateMinimumRoute(String startingNode, String destinationNode) throws NodesException
 	{
-		potentialVector.setFields(adjacencyMatrix.getFields());
-		initPotentialVector();
 		int startingNodePos = searchNodePosition(startingNode);
-		if(startingNodePos != -1)
+		if(!startingNode.equals(destinationNode))
 		{
-			int destinationNodePos = searchNodePosition(destinationNode);
-			if(destinationNodePos != -1)
+			if(startingNodePos != -1)
 			{
-				potentialVector.setValue(startingNodePos, "0fix");
-				dijkstraAlgorithm(startingNodePos, destinationNodePos);
-				consoleListener.showMessage(new DijkstraEvent("\nPercorso minimo: " + getMinPath(startingNodePos, destinationNodePos)));
+				int destinationNodePos = searchNodePosition(destinationNode);
+				if(destinationNodePos != -1)
+				{
+					potentialVector.setFields(adjacencyMatrix.getFields());
+					initPotentialVector();
+					potentialVector.setValue(startingNodePos, "0fix");
+					dijkstraAlgorithm(startingNodePos, destinationNodePos);
+					consoleListener.showMessage(new DijkstraEvent("\nPercorso minimo: " + getMinPath(startingNodePos, destinationNodePos)));
+				}
+				else
+					throw new NodesException("nodo di arrivo non trovato.");
 			}
 			else
-				throw new NodesException("nodo di arrivo non trovato.");
+				throw new NodesException("nodo di partenza non trovato.");
 		}
 		else
-			throw new NodesException("nodo di partenza non trovato.");
+			throw new NodesException("non si può calcolare il percorso minimo partendo da un nodo e arrivando allo stesso.");
 	}
 	
 	//---------------------------------------------------------------------------------------------

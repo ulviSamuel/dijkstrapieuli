@@ -35,9 +35,9 @@ public class Console
 	private void test()
 	{
 		try {
-			bizDijkstra.initAdjacencyMatrix("A,B,C,D,E,F,G");
+			bizDijkstra.initAdjacencyMatrix("A,B,C,D,E,F,G,");
 		} catch (NodesException e) {
-			System.out.println("\nSi Ã¨ verificato un errore: " + e.getMessage());
+			System.out.println("\nSi è verificato un errore: " + e.getMessage());
 		}
 		try {
 			bizDijkstra.fillAdjacencyMatrix(0, "B2,C8");
@@ -49,12 +49,12 @@ public class Console
 			bizDijkstra.fillAdjacencyMatrix(6, "F1,E5");
 			
 		} catch (NodesException e) {
-			System.out.println("\nSi Ã¨ verificato un errore: " + e.getMessage());
+			System.out.println("\nSi è verificato un errore: " + e.getMessage());
 		}
 		try {
-			bizDijkstra.calculateMinimumRoute("F", "B");
+			bizDijkstra.calculateMinimumRoute("F", "F");
 		} catch (NodesException e) {
-			System.out.println("\nSi Ã¨ verificato un errore: " + e.getMessage());
+			System.out.println("\nSi è verificato un errore: " + e.getMessage());
 		}
 	}
 	
@@ -76,7 +76,7 @@ public class Console
 					bizDijkstra.initAdjacencyMatrix(nodes);
 					nodesConnectionAndWeightRequest();
 				} catch (NodesException e) {
-					System.out.println("\nSi ï¿½ verificato un errore: " + e.getMessage());
+					System.out.println("\nSi è verificato un errore: " + e.getMessage());
 					goOn = true;
 				}
 			}
@@ -117,5 +117,50 @@ public class Console
 			}
 			while(goOn);
 		}
+		startNodeAndFinalNodeRequest();
 	} 
+	
+	//---------------------------------------------------------------------------------------------
+	
+	private void startNodeAndFinalNodeRequest()
+	{
+		boolean goOn  = false;
+		do
+		{
+			goOn  = false;
+			String startNode = startNodeRequest();
+			if(startNode != null)
+			{
+				String destNode = finalNodeRequest();
+				if(destNode != null)
+				{
+					try {
+						bizDijkstra.calculateMinimumRoute(startNode, destNode);
+					} catch (NodesException e) {
+						System.out.println("\nSi è verificato un errore: " + e.getMessage());
+						goOn = true;
+					}
+				}
+			}
+		}
+		while(goOn);
+	}
+	
+	//---------------------------------------------------------------------------------------------
+	
+	private String startNodeRequest()
+	{
+		String mess         = "\nInserisci il nodo di partenza da cui calcolare il percorso minimo (es. 'A')";
+		String startNodeReq = Util.leggiString(scanner, mess, false, null);
+		return startNodeReq;
+	}
+	
+	//---------------------------------------------------------------------------------------------
+	
+	private String finalNodeRequest()
+	{
+		String mess         = "\nInserisci il nodo di destinazione da cui calcolare il percorso minimo (es. 'F')";
+		String startNodeReq = Util.leggiString(scanner, mess, false, null);
+		return startNodeReq;
+	}
 }
