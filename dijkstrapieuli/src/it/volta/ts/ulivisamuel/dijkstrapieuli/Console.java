@@ -25,8 +25,8 @@ public class Console
 	{
 		scanner = new Scanner(System.in);
 		bizDijkstra.setDijkstraConsoleListener(new DijkstraConsoleListener());
-		test();
-		//nodesRequest();
+		//test();
+		nodesRequest();
 		scanner.close();
 	}
 	
@@ -35,7 +35,7 @@ public class Console
 	private void test()
 	{
 		try {
-			bizDijkstra.initAdjacencyMatrix("A,B,C,D,E,F,G,");
+			bizDijkstra.initAdjacencyMatrix("A,B,C,D,E,F,G");
 		} catch (NodesException e) {
 			System.out.println("\nSi è verificato un errore: " + e.getMessage());
 		}
@@ -62,8 +62,10 @@ public class Console
 	
 	private void nodesRequest()
 	{
-		String  mess  = "\nInserisci i nodi appartenenti alla rete (es. 'A,B,C,D,E', almeno 4 nodi) altrimenti clicca invio per "
-				      + "uscire dal programma";
+		String  mess  = "\nInserisci i nodi appartenenti alla rete (es. 'A,B,C,D,E') altrimenti clicca invio per "
+				      + "uscire dal programma\n Condizioni di inserimento:\n  - Un nodo deve avere un nome composto da un solo carattere"
+				      + "\n  - Un nodo deve avere un nome non numerico (il nome deve essere o una lettera o un carattere speciale)\n  - "
+				      + "Non si può inserire un nodo precedentemente inserito\n  - I nodi inseriti devono essere almeno 4";
 		String  nodes = null;
 		boolean goOn  = false;
 		do
@@ -88,9 +90,9 @@ public class Console
 	
 	private void nodesConnectionAndWeightRequest()
 	{
-		String  mess            = "Inserisci i collegamenti diretti del nodo indicato con gli altri nodi del sistema (almeno 1).\nPer "
+		String  mess            = "Inserisci i collegamenti diretti del nodo indicato, con gli altri nodi del sistema (almeno 1 colleg.).\nPer "
 				                + "ogni nodo collegato specifica poi il peso (>0) del percorso altrimenti premi invio per uscire dal programma"
-				                + "\n(es. il nodo a cui vanno aggiunti i collegamenti ï¿½ il nodo A. I collegamenti diretti sono 'B2,C4,E9' "
+				                + "\n(es. il nodo a cui vanno aggiunti i collegamenti è il nodo A. I collegamenti diretti sono 'B2,C4,E9' "
 				                + "dove\nla lettera corrisponde a un nodo direttamente collegato e il numero associato corrisponde al peso "
 				                + "del percorso)";
 		String  nodesSplitted[] = bizDijkstra.getNodi();
@@ -108,7 +110,7 @@ public class Console
 					try {
 						bizDijkstra.fillAdjacencyMatrix(idx, connections);
 					} catch (NodesException e) {
-						System.out.println("\nSi ï¿½ verificato un errore: " + e.getMessage());
+						System.out.println("\nSi è verificato un errore: " + e.getMessage());
 						goOn = true;
 					}
 				}

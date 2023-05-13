@@ -40,8 +40,6 @@ public class BizDijkstra
 	
 	//---------------------------------------------------------------------------------------------
 	
-	//TODO: fare in modo che i nomi dei nodi possano essere una sola lettera
-	
 	public void initAdjacencyMatrix(String nodes) throws NodesException
 	{
 		String nodesSplitted[] = nodes.split(",");
@@ -56,8 +54,6 @@ public class BizDijkstra
 		else
 			throw new NodesException(errMess);
 	}
-	
-	//TODO: ordinare campi in ordine crescende/dec
 	
 	//---------------------------------------------------------------------------------------------
 	
@@ -112,7 +108,7 @@ public class BizDijkstra
 							adjacencyMatrix.setValue(positionConnection, nodePos, weight);
 						}
 						else
-							throw new NodesException("nodi non trovati.");
+							throw new NodesException("nodi collegati non trovati.");
 					}
 					else
 						throw new NodesException("peso dei persorsi inaccettabile.");
