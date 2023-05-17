@@ -1,4 +1,4 @@
-package it.volta.ts.ulivisamuel.dijkstrapieuli.events;
+package it.volta.ts.pieuli.dijkstrapieuli.events;
 
 public interface DijkstraListener
 {

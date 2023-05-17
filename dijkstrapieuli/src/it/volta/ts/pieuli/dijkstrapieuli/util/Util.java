@@ -1,4 +1,4 @@
-package it.volta.ts.ulivisamuel.dijkstrapieuli.util;
+package it.volta.ts.pieuli.dijkstrapieuli.util;
 
 import java.util.Scanner;
 

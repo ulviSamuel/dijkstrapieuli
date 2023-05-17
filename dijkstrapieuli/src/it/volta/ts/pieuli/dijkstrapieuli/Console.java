@@ -1,11 +1,11 @@
-package it.volta.ts.ulivisamuel.dijkstrapieuli;
+package it.volta.ts.pieuli.dijkstrapieuli;
 
 import java.util.Scanner;
 
-import it.volta.ts.ulivisamuel.dijkstrapieuli.biz.BizDijkstra;
-import it.volta.ts.ulivisamuel.dijkstrapieuli.events.DijkstraConsoleListener;
-import it.volta.ts.ulivisamuel.dijkstrapieuli.exceptions.NodesException;
-import it.volta.ts.ulivisamuel.dijkstrapieuli.util.Util;
+import it.volta.ts.pieuli.dijkstrapieuli.biz.BizDijkstra;
+import it.volta.ts.pieuli.dijkstrapieuli.events.DijkstraConsoleListener;
+import it.volta.ts.pieuli.dijkstrapieuli.exceptions.NodesException;
+import it.volta.ts.pieuli.dijkstrapieuli.util.Util;
 
 public class Console 
 {
@@ -52,7 +52,7 @@ public class Console
 			System.out.println("\nSi è verificato un errore: " + e.getMessage());
 		}
 		try {
-			bizDijkstra.calculateMinimumRoute("F", "F");
+			bizDijkstra.calculateMinimumRoute("A", "G");
 		} catch (NodesException e) {
 			System.out.println("\nSi è verificato un errore: " + e.getMessage());
 		}

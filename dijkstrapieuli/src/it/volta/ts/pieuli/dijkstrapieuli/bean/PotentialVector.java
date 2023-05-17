@@ -1,4 +1,4 @@
-package it.volta.ts.ulivisamuel.dijkstrapieuli.bean;
+package it.volta.ts.pieuli.dijkstrapieuli.bean;
 
 public class PotentialVector
 {

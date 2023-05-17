@@ -1,4 +1,4 @@
-package it.volta.ts.ulivisamuel.dijkstrapieuli.exceptions;
+package it.volta.ts.pieuli.dijkstrapieuli.exceptions;
 
 @SuppressWarnings("serial")
 public class NodesException extends Exception

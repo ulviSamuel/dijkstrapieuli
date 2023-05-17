@@ -1,4 +1,4 @@
-package it.volta.ts.ulivisamuel.dijkstrapieuli;
+package it.volta.ts.pieuli.dijkstrapieuli;
 
 public class Main
 {

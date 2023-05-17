@@ -1,13 +1,13 @@
-package it.volta.ts.ulivisamuel.dijkstrapieuli.biz;
+package it.volta.ts.pieuli.dijkstrapieuli.biz;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import it.volta.ts.ulivisamuel.dijkstrapieuli.bean.AdjacencyMatrix;
-import it.volta.ts.ulivisamuel.dijkstrapieuli.bean.PotentialVector;
-import it.volta.ts.ulivisamuel.dijkstrapieuli.events.DijkstraConsoleListener;
-import it.volta.ts.ulivisamuel.dijkstrapieuli.events.DijkstraEvent;
-import it.volta.ts.ulivisamuel.dijkstrapieuli.exceptions.NodesException;
+import it.volta.ts.pieuli.dijkstrapieuli.bean.AdjacencyMatrix;
+import it.volta.ts.pieuli.dijkstrapieuli.bean.PotentialVector;
+import it.volta.ts.pieuli.dijkstrapieuli.events.DijkstraConsoleListener;
+import it.volta.ts.pieuli.dijkstrapieuli.events.DijkstraEvent;
+import it.volta.ts.pieuli.dijkstrapieuli.exceptions.NodesException;
 
 public class BizDijkstra 
 {
